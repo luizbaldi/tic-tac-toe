@@ -4,13 +4,15 @@ body {
 
 .square{
     border: 2px solid #a1d7ec;
+    background-color: #8bbbce;
+	opacity: 0.5;
     width:120px;
     height:120px;
 }
 
 .square:hover {
     background-color: #8bbbce;
-	opacity: 0.5;
+	opacity: 1;
 }
 
 .square:active {
@@ -22,4 +24,5 @@ body {
 
 #game-grid {
 	margin-top: 100px;
+	margin-left: 30%;
 }
