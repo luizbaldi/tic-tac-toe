@@ -7,9 +7,5 @@ I decided to use some frameworks such as Bootstrap and GreenSock JS to work toge
 
 ## Demo
 ### Code
-~soon
-
-### Template
-~soon
-
+http://codepen.io/luizbaldi/pen/BzZNxj
 
