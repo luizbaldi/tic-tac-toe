@@ -1,5 +1,5 @@
 # tic-tac-toe
-A simple tic-tac-toe game built with GreenSock and handmade CSS
+A simple tic-tac-toe game built with GreenSock and Bootstrap
 
 ##Intention
 The ideia of this project came from a college project, during the Software Engineer course.

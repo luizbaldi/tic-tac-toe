@@ -2,6 +2,7 @@ $(document).ready(function() {
 	var gameGrid = $('#game-grid');
 	var turnFlag = true;
 	var totalTurns = 0;
+	var playerPanel = $("#player-panel");
 	var player1 = $("#player1");
 	var player2 = $("#player2");
 
@@ -22,17 +23,14 @@ $(document).ready(function() {
 		}
 
 		/* Change players visibility */
-		player1.css('visibility', 'initial');
-		player2.css('visibility', 'initial');
+		playerPanel.removeClass('hidden').addClass('show');
 
 		/* Set class for start player */
 		player1.addClass("player-turn");
 	});
 
 	$('#restart').click(function() {
-		gameGrid.html('');
-		player1.removeClass('player-turn');
-		player2.removeClass('player-turn');
+		resetGame();
 	});
 
 	$('#game-grid').click(function(click) {
@@ -54,7 +52,7 @@ $(document).ready(function() {
 		//toDo: implement a method to check if there's a winner
 		if (totalTurns == 9) {			
 			alert('Fim do Jogo');
-			gameGrid.html('');
+			resetGame();
 		}
 	});
 
@@ -86,5 +84,17 @@ $(document).ready(function() {
 				});
 			});
 		}
+	};
+
+	var resetGame = function() {
+		/* Reset game grid content */
+		gameGrid.html('');
+
+		/* Reset classes for player turn */
+		player1.removeClass('player-turn');
+		player2.removeClass('player-turn');
+
+		/* Reset players visiblity */
+		playerPanel.addClass('hidden');
 	};
 });

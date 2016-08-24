@@ -1,77 +1,45 @@
-html {
-	width: 100%;
+* {
+	font-family: 'Jaldi', sans-serif;
+	font-weight: 400;
+	font-size: 22px;
 }
 
 body {
-	width: 100%;
 	background-image: url(../img/small_steps.png);
-	font-family: 'Jaldi', sans-serif;
-	font-size: 26px;
-}
-
-
-/* Game panel */
-
-.game-panel {
-	text-align: center;
-}
-
-.panel-button {
-	height: 35px;
-	width: 45%;
-	background-color: #A3BAC3;
-	display: inline-block;
-}
-
-.panel-button:hover {
-	background-color: #EAEBED;
-	opacity: 0.8;
 }
 
 /* Game grid */
-
-.grid-container {
-	margin-top: 20px;
-}
-
-#game-grid {
-	display: inline-block;
-}
-
 .square{
-    border: 2px solid #006989;
-    background-color: #235789;
-	opacity: 0.5;
+    border: 1px solid #006989;
+    background-color: #0094C6;
+    opacity: 0.4;
     width:120px !important;
     height:120px !important;
 }
 
 .square:hover {
-    background-color: #EAEBED;
-	opacity: 1;
+    background-color: #005E7C;
 }
 
 .square:active {
-	opacity: 1;
-	/*border-color: #445860;*/
 	border-style: double;
 	background-color: #A3BAC3;
 }
 
 /* Player Panel */
-
-.player-panel {
-	text-align: center;
-}
-
-.player {
-	width: 45%;
-	height: 45%;
-	display: inline-block;
-	visibility: hidden;
-}
-
 .player-turn {
-	background-color: #A3BAC3;
-	border-bottom: 2px solid black;
+	border: 2px solid #0094C6;
+}
+
+/* Overriding Bootstrap components */
+.jumbotron {
+	/* Set jumbotron background to transparent */
+	background-color:rgba(0, 0, 0, 0); 
+}
+footer {
+	text-align: center;
+ 	border-top: solid 1px #cce6ff;
+ 	width:100%;
+ 	bottom: 0;
+ 	height: 40px;
 }
