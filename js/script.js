@@ -2,35 +2,22 @@ $(document).ready(function() {
 	var gameGrid = $('#game-grid');
 	var turnFlag = true;
 	var totalTurns = 0;
+	var hasStartedFlag = false;
 	var playerPanel = $("#player-panel");
 	var player1 = $("#player1");
 	var player2 = $("#player2");
 
 
 	$('#start').click(function() {
-		for (row = 0; row < 3; row++) {
-			let rowId = 'row'.concat(row.toString());
-			let newRow = $('<tr>');
-			let newRowId = newRow.attr('id', rowId);
-			
-			gameGrid.append(newRowId);
-
-			for (col = 0; col < 3; col++) {
-				let colId = 'col'.concat(col.toString());
-				let square = $('<td>').addClass('square').attr('id', colId);
-				newRowId.append(square);
-			}
-		}
-
-		/* Change players visibility */
-		playerPanel.removeClass('hidden').addClass('show');
-
-		/* Set class for start player */
-		player1.addClass("player-turn");
+		if (!hasStartedFlag) {
+			startGame();
+			hasStartedFlag = true;
+		} 
 	});
 
 	$('#restart').click(function() {
 		resetGame();
+		startGame();
 	});
 
 	$('#game-grid').click(function(click) {
@@ -45,14 +32,24 @@ $(document).ready(function() {
 				changePlayerTurn(turnFlag);
 			}
 			checkWinner(gameGrid);
-		} else {
-			alert('Selecione um espaço não preenchido');
 		}
 
 		//toDo: implement a method to check if there's a winner
 		if (totalTurns == 9) {			
 			alert('Fim do Jogo');
 			resetGame();
+			startGame();
+		}
+	});
+
+	$('#game-grid').mouseover(function(mouseOver) {
+		var squareOver = $(mouseOver.toElement);
+		if (!squareOver.attr('clicked')) {
+			if (turnFlag) {
+				handleHoverSquare(squareOver, 'url(img/x.png)');
+			} else {
+				handleHoverSquare(squareOver, 'url(img/o.png)');
+			}
 		}
 	});
 
@@ -96,5 +93,41 @@ $(document).ready(function() {
 
 		/* Reset players visiblity */
 		playerPanel.addClass('hidden');
+
+		/* Reset turns counter */
+		totalTurns = 0;
+		turnFlag = true;
+	};
+
+	var startGame = function() {
+		for (row = 0; row < 3; row++) {
+			let rowId = 'row'.concat(row.toString());
+			let newRow = $('<tr>');
+			let newRowId = newRow.attr('id', rowId);
+			
+			gameGrid.append(newRowId);
+
+			for (col = 0; col < 3; col++) {
+				let colId = 'col'.concat(col.toString());
+				let square = $('<td>').addClass('square').attr('id', colId);
+				newRowId.append(square);
+			}
+		}
+
+		/* Change players visibility */
+		playerPanel.removeClass('hidden').addClass('show');
+
+		/* Set class for start player */
+		player1.addClass("player-turn");
+	};
+
+	var handleHoverSquare = function(squareOver, imgUrlTurn) {
+		squareOver.css('background', imgUrlTurn);
+		squareOver.mouseleave(function(mouseLeave) {
+			var squareLeave = $(mouseLeave.currentTarget);
+			if (!squareOver.attr('clicked')) {
+				squareLeave.removeAttr('style');
+			}
+		});
 	};
 });
