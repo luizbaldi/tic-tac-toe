@@ -1,5 +1,10 @@
+$ = require('jquery');
+
 $(document).ready(function() {
+	var moduleTest = require('./modules/moduleTest');
+	
 	var gameGrid = $('#game-grid');
+	var gameGridObj = [];
 	var turnFlag = true;
 	var totalTurns = 0;
 	var hasStartedFlag = false;
@@ -7,6 +12,8 @@ $(document).ready(function() {
 	var player1 = $("#player1");
 	var player2 = $("#player2");
 
+	/* Call module test method */
+	moduleTest();
 
 	$('#start').click(function() {
 		if (!hasStartedFlag) {
@@ -32,14 +39,14 @@ $(document).ready(function() {
 				changePlayerTurn(turnFlag);
 			}
 			checkWinner(gameGrid);
-		}
+		}		
 
-		//toDo: implement a method to check if there's a winner
 		if (totalTurns == 9) {			
 			alert('Fim do Jogo');
 			resetGame();
 			startGame();
 		}
+		
 	});
 
 	$('#game-grid').mouseover(function(mouseOver) {
@@ -72,12 +79,16 @@ $(document).ready(function() {
 		}
 	};
 
+	/* toDo: create a better architecture to separate files using modules */
 	var checkWinner = function(gameGrid) {
-		if(totalTurns > 4) {
+		if(totalTurns >= 4) {
 			/* Does inverse procces checking every position from grid */
-			gameGrid.find('tr').each(function(idx, row) {
-				$(row).find('td').each(function(idx, col) {
-					
+			gameGrid.find('tr').each(function(rowIndex, row) {
+				$(row).find('td').each(function(colIndex, col) {
+					var rowId = $(col.parentElement).attr('id');
+					if ($(col).attr('player')) {
+						console.log('here');
+					}
 				});
 			});
 		}
@@ -131,3 +142,4 @@ $(document).ready(function() {
 		});
 	};
 });
+
