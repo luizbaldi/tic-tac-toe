@@ -1,7 +1,7 @@
 $ = require('jquery');
 
 $(document).ready(function() {
-	var moduleTest = require('./modules/moduleTest');
+	var controller = require('./modules/gameController');
 	
 	var gameGrid = $('#game-grid');
 	var gameGridObj = [];
@@ -11,9 +11,6 @@ $(document).ready(function() {
 	var playerPanel = $("#player-panel");
 	var player1 = $("#player1");
 	var player2 = $("#player2");
-
-	/* Call module test method */
-	moduleTest();
 
 	$('#start').click(function() {
 		if (!hasStartedFlag) {
