@@ -1,19 +1,49 @@
-module.exports = function gameController() {
-	this.checkWinnerGrid = [];
+module.exports = {
+	checkWinnerGrid : [],
+	hasWinner : false,
 
-	this.pointSquare = function(squareCoordinates) {
-		console.log(squareCoordinates);
-	};
+	checkChangedGrid : function(gameGrid, totalTurns) {
+		if (totalTurns >= 4) {
+			this.checkWinnerGrid = [];
 
-	this.resetGrid = function() {
+			/* Does inverse procces checking every position from grid */
+			gameGrid.find('tr').each(function(rowIndex, row) {
+				currentRow = rowIndex;
+				$(row).find('td').each(function(colIndex, col) {
+					/* Checks and creates a new array for the current row before fullfill with player turn*/
+					if (!this.checkWinnerGrid[currentRow]) {
+						this.checkWinnerGrid[currentRow] = new Array();
+					}
+					if (!$(col).attr('player')) {
+						$(col).attr('player', 'blank');
+					}
+					this.checkWinnerGrid[currentRow].push($(col).attr('player'));
+				}.bind(this));
+			}.bind(this));
+
+			this.checkWinner();
+		}
+	},
+
+	checkWinner : function() {
+		var grid = this.checkWinnerGrid;
+
 		for (var row = 0; row < 3; row++) {
-			for (var col = 0; col < 0; col++) {
-				checkWinner[row] = 'col' + col.toString();
+			if (!this.hasWinner) {
+				this.checkRow(grid[row], grid[row][0]);
 			}
 		}
-	};
+	},
 
-	this.showSimpleAlertMessage = function(message) {
-		alert(message);
-	};
+	checkRow : function(row, firstSquare) {
+		for (var col = 0; col < 3; col++) {
+			if (row[col] == firstSquare && row[col] != "blank") {
+				continue;
+			} else {
+				return false;
+			}
+		}
+
+		this.hasWinner = true;
+	}
 };

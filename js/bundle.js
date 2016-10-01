@@ -1,22 +1,52 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = function gameController() {
-	this.checkWinnerGrid = [];
+module.exports = {
+	checkWinnerGrid : [],
+	hasWinner : false,
 
-	this.pointSquare = function(squareCoordinates) {
-		console.log(squareCoordinates);
-	};
+	checkChangedGrid : function(gameGrid, totalTurns) {
+		if (totalTurns >= 4) {
+			this.checkWinnerGrid = [];
 
-	this.resetGrid = function() {
+			/* Does inverse procces checking every position from grid */
+			gameGrid.find('tr').each(function(rowIndex, row) {
+				currentRow = rowIndex;
+				$(row).find('td').each(function(colIndex, col) {
+					/* Checks and creates a new array for the current row before fullfill with player turn*/
+					if (!this.checkWinnerGrid[currentRow]) {
+						this.checkWinnerGrid[currentRow] = new Array();
+					}
+					if (!$(col).attr('player')) {
+						$(col).attr('player', 'blank');
+					}
+					this.checkWinnerGrid[currentRow].push($(col).attr('player'));
+				}.bind(this));
+			}.bind(this));
+
+			this.checkWinner();
+		}
+	},
+
+	checkWinner : function() {
+		var grid = this.checkWinnerGrid;
+
 		for (var row = 0; row < 3; row++) {
-			for (var col = 0; col < 0; col++) {
-				checkWinner[row] = 'col' + col.toString();
+			if (!this.hasWinner) {
+				this.checkRow(grid[row], grid[row][0]);
 			}
 		}
-	};
+	},
 
-	this.showSimpleAlertMessage = function(message) {
-		alert(message);
-	};
+	checkRow : function(row, firstSquare) {
+		for (var col = 0; col < 3; col++) {
+			if (row[col] == firstSquare && row[col] != "blank") {
+				continue;
+			} else {
+				return false;
+			}
+		}
+
+		this.hasWinner = true;
+	}
 };
 },{}],2:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
@@ -10098,7 +10128,7 @@ return jQuery;
 $ = require('jquery');
 
 $(document).ready(function() {
-	var controller = require('./modules/gameController');
+	var gameController = require('./modules/gameController');
 	
 	var gameGrid = $('#game-grid');
 	var gameGridObj = [];
@@ -10122,20 +10152,32 @@ $(document).ready(function() {
 	});
 
 	$('#game-grid').click(function(click) {
-		let squareClicked = $(click.toElement);
+		var squareClicked = $(click.toElement);
+		var hasWinner = false;
 
 		if (!squareClicked.attr('clicked')) {
 			if (turnFlag) {
 				pointSquare(squareClicked, 'url(img/x.png)', 'p1');
+
 				changePlayerTurn(turnFlag);
 			} else {
 				pointSquare(squareClicked, 'url(img/o.png)', 'p2');
 				changePlayerTurn(turnFlag);
 			}
-			checkWinner(gameGrid);
+
+			gameController.checkChangedGrid(gameGrid, totalTurns);
 		}		
 
-		if (totalTurns == 9) {			
+		if (gameController.hasWinner) {
+			if (!turnFlag) {
+				alert('O vencedor é Player 1');
+			} else {
+				alert('O vencedor é Player 2');
+			}
+			gameController.hasWinner = false;
+			resetGame();
+			startGame();
+		} else if (totalTurns == 9) {			
 			alert('Fim do Jogo');
 			resetGame();
 			startGame();
@@ -10173,21 +10215,6 @@ $(document).ready(function() {
 		}
 	};
 
-	/* toDo: create a better architecture to separate files using modules */
-	var checkWinner = function(gameGrid) {
-		if(totalTurns >= 4) {
-			/* Does inverse procces checking every position from grid */
-			gameGrid.find('tr').each(function(rowIndex, row) {
-				$(row).find('td').each(function(colIndex, col) {
-					var rowId = $(col.parentElement).attr('id');
-					if ($(col).attr('player')) {
-						console.log('here');
-					}
-				});
-			});
-		}
-	};
-
 	var resetGame = function() {
 		/* Reset game grid content */
 		gameGrid.html('');
@@ -10213,7 +10240,8 @@ $(document).ready(function() {
 			gameGrid.append(newRowId);
 
 			for (col = 0; col < 3; col++) {
-				let colId = 'col'.concat(col.toString());
+				let colId = rowId + 'col'.concat(col.toString());
+
 				let square = $('<td>').addClass('square').attr('id', colId);
 				newRowId.append(square);
 			}

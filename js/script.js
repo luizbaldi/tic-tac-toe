@@ -1,7 +1,7 @@
 $ = require('jquery');
 
 $(document).ready(function() {
-	var controller = require('./modules/gameController');
+	var gameController = require('./modules/gameController');
 	
 	var gameGrid = $('#game-grid');
 	var gameGridObj = [];
@@ -25,20 +25,32 @@ $(document).ready(function() {
 	});
 
 	$('#game-grid').click(function(click) {
-		let squareClicked = $(click.toElement);
+		var squareClicked = $(click.toElement);
+		var hasWinner = false;
 
 		if (!squareClicked.attr('clicked')) {
 			if (turnFlag) {
 				pointSquare(squareClicked, 'url(img/x.png)', 'p1');
+
 				changePlayerTurn(turnFlag);
 			} else {
 				pointSquare(squareClicked, 'url(img/o.png)', 'p2');
 				changePlayerTurn(turnFlag);
 			}
-			checkWinner(gameGrid);
+
+			gameController.checkChangedGrid(gameGrid, totalTurns);
 		}		
 
-		if (totalTurns == 9) {			
+		if (gameController.hasWinner) {
+			if (!turnFlag) {
+				alert('O vencedor é Player 1');
+			} else {
+				alert('O vencedor é Player 2');
+			}
+			gameController.hasWinner = false;
+			resetGame();
+			startGame();
+		} else if (totalTurns == 9) {			
 			alert('Fim do Jogo');
 			resetGame();
 			startGame();
@@ -76,21 +88,6 @@ $(document).ready(function() {
 		}
 	};
 
-	/* toDo: create a better architecture to separate files using modules */
-	var checkWinner = function(gameGrid) {
-		if(totalTurns >= 4) {
-			/* Does inverse procces checking every position from grid */
-			gameGrid.find('tr').each(function(rowIndex, row) {
-				$(row).find('td').each(function(colIndex, col) {
-					var rowId = $(col.parentElement).attr('id');
-					if ($(col).attr('player')) {
-						console.log('here');
-					}
-				});
-			});
-		}
-	};
-
 	var resetGame = function() {
 		/* Reset game grid content */
 		gameGrid.html('');
@@ -116,7 +113,8 @@ $(document).ready(function() {
 			gameGrid.append(newRowId);
 
 			for (col = 0; col < 3; col++) {
-				let colId = 'col'.concat(col.toString());
+				let colId = rowId + 'col'.concat(col.toString());
+
 				let square = $('<td>').addClass('square').attr('id', colId);
 				newRowId.append(square);
 			}
