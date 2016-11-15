@@ -36,6 +36,10 @@ module.exports = {
 				}
 			}
 		}
+
+		if(!this.hasWinner) {
+			this.checkDiagonals(grid);
+		}
 	},
 
 	checkRow : function(row, firstSquare) {
@@ -60,6 +64,25 @@ module.exports = {
 		}
 
 		this.hasWinner = true;
+	},
+
+	checkDiagonals : function(grid) {
+		var firstSquare;
+
+		for (var diagonalCounter = 0; diagonalCounter < 2; diagonalCounter++) {
+			// Define first square to make comparisons
+			if(diagonalCounter == 0) {
+				firstSquare = grid[0][0];
+				if (grid[1][1] == firstSquare && grid[2][2] == firstSquare) {
+					this.hasWinner = true;
+				}
+			} else {
+				firstSquare = grid[0][2];
+				if (grid[1][1] == firstSquare && grid[2][0] == firstSquare) {
+					this.hasWinner = true;
+				}
+			}
+		}
 	}
 };
 },{}],2:[function(require,module,exports){
