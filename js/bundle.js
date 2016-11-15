@@ -31,7 +31,9 @@ module.exports = {
 
 		for (var row = 0; row < 3; row++) {
 			if (!this.hasWinner) {
-				this.checkRow(grid[row], grid[row][0]);
+				if (this.checkRow(grid[row], grid[row][0])) {
+					this.checkColumn(row, grid[0][row], grid);
+				}
 			}
 		}
 	},
@@ -41,7 +43,19 @@ module.exports = {
 			if (row[col] == firstSquare && row[col] != "blank") {
 				continue;
 			} else {
-				return false;
+				return true;
+			}
+		}
+
+		this.hasWinner = true;
+	},
+
+	checkColumn : function(rowCount, firstSquare, grid) {
+		for (var col = 0; col < 3; col++) {
+			if (grid[col][rowCount] == firstSquare && grid[col][rowCount] != "blank") {
+				continue;
+			} else {
+				return true;
 			}
 		}
 
