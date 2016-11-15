@@ -10207,15 +10207,15 @@ $(document).ready(function() {
 
 		if (gameController.hasWinner) {
 			if (!turnFlag) {
-				alert('O vencedor é Player 1');
+				swal("O vendedor é o Player 1");
 			} else {
-				alert('O vencedor é Player 2');
+				swal("O vencedor é Player 2");
 			}
 			gameController.hasWinner = false;
 			resetGame();
 			startGame();
 		} else if (totalTurns == 9) {			
-			alert('Fim do Jogo');
+			swal("Fim do jogo");
 			resetGame();
 			startGame();
 		}
