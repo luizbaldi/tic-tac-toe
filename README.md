@@ -6,8 +6,6 @@ The ideia of this project came from a college project, during the Software Engin
 I decided to use some frameworks such as Bootstrap and GreenSock JS to work together and produce a simple and nice animated game.
 
 ## Demo
-### Code
-http://codepen.io/luizbaldi/pen/BzZNxj
 
 ### Live Preview
-http://codepen.io/luizbaldi/full/BzZNxj/
+https://luizbaldi.github.io/tic-tac-toe/
