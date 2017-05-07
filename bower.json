@@ -1,0 +1,27 @@
+{
+  "name": "tic-tac-toe",
+  "description": "Simple Tic-tac-toe game",
+  "main": "bundle.js",
+  "authors": [
+    "Luiz Baldi"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "tic",
+    "tac",
+    "toe"
+  ],
+  "homepage": "https://luizbaldi.github.io/tic-tac-toe/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "sweetalert": "^1.1.3"
+  }
+}

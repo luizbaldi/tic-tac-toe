@@ -1,5 +1,3 @@
-$ = require('jquery');
-
 $(document).ready(function() {
 	var gameController = require('./modules/gameController');
 	
@@ -43,9 +41,9 @@ $(document).ready(function() {
 
 		if (gameController.hasWinner) {
 			if (!turnFlag) {
-				swal("O vendedor é o Player 1");
+				swal("Player one is the winner!");
 			} else {
-				swal("O vencedor é Player 2");
+				swal("Player two is the winner!");
 			}
 			gameController.hasWinner = false;
 			resetGame();
